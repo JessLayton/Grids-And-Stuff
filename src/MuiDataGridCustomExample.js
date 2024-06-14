@@ -7,6 +7,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const CustomToolbar = () => {
   return (
     <GridToolbarContainer>
+      <p>People</p>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
       <GridToolbarDensitySelector
@@ -67,7 +68,7 @@ const MuiCustomDataGrid = ({ columns, rows }) => {
 
   return (
     <>
-      <Accordion expanded={expanded} onChange={handleExpandResultControls}>
+      <Accordion sx={{ width: '300px' }} expanded={expanded} onChange={handleExpandResultControls}>
         <AccordionSummary
           expandIcon={<ArrowDownwardIcon />}
           aria-controls="panel1-content"
@@ -81,18 +82,19 @@ const MuiCustomDataGrid = ({ columns, rows }) => {
               value={resultType}
               onChange={handleChange}
             >
-              <FormControlLabel value="things" control={<Radio />} label="Things" />
-              <FormControlLabel value="people" control={<Radio />} label="People" />
-              <FormControlLabel value="places" control={<Radio />} label="Places" />
+              <FormControlLabel value="things" control={<Radio />} label={'Things (0)'} />
+              <FormControlLabel value="people" control={<Radio />} label={`People (${rows.length})`} />
+              {resultType === 'people' && (
+                <FormControl sx={{ marginLeft: '25px' }}>
+                  <FormControlLabel control={<Checkbox size='small' checked={isOverFortyFilter} onChange={toggleIsOverFortyFilter} />} label="Is Over Forty" />
+                  <FormControlLabel control={<Checkbox size='small' checked={nameContainsEFilter} onChange={toggleNameContainsEFilter} />} label="Name Contains an E" />
+                </FormControl>
+
+              )}
+              <FormControlLabel value="places" control={<Radio />} label="Places (0)" />
 
             </RadioGroup>
           </FormControl>
-          {resultType === 'people' && (
-            <FormControl>
-              <FormControlLabel control={<Checkbox checked={isOverFortyFilter} onChange={toggleIsOverFortyFilter} />} label="Is Over Forty" />
-              <FormControlLabel control={<Checkbox checked={nameContainsEFilter} onChange={toggleNameContainsEFilter} />} label="Name Contains an E" />
-            </FormControl>
-          )}
         </AccordionDetails>
       </Accordion>
       {resultType === 'people' && (
